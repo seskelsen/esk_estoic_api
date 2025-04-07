@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.1] - 2025-04-07
+
+### Melhorado
+
+- Implementação de cabeçalhos de segurança HTTP:
+  - Content-Security-Policy (CSP) para controlar carregamento de recursos
+  - X-Frame-Options para proteção contra clickjacking
+  - X-Content-Type-Options para prevenir MIME-sniffing
+- Conformidade com recomendações de segurança identificadas pelo ZAP Proxy
+
 ## [1.3.0] - 2025-04-07
 
 ### Adicionado

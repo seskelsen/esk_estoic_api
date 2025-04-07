@@ -15,6 +15,20 @@ import asyncio
 import os
 from pathlib import Path
 from contextlib import asynccontextmanager
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
+
+# Middleware de segurança para adicionar cabeçalhos HTTP de segurança
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response: Response = await call_next(request)
+        # Adiciona o cabeçalho Content-Security-Policy
+        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self';"
+        # Adiciona o cabeçalho X-Frame-Options para proteção contra clickjacking
+        response.headers["X-Frame-Options"] = "DENY"
+        # Adiciona o cabeçalho X-Content-Type-Options para prevenir MIME-sniffing
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        return response
 
 # Modelos de dados para a documentação
 class QuoteBase(BaseModel):
@@ -102,6 +116,9 @@ app = FastAPI(
     terms_of_service="https://github.com/seu-usuario/esk_estoic_api",
 )
 
+# Configuração de middlewares
+# ===========================
+
 # Configure CORS
 allowed_origins = ["http://localhost:3000", "http://localhost:5000", "http://localhost:8000", "*"]
 
@@ -115,6 +132,10 @@ if ENV == "production":
         # Em produção, permitimos todas as origens
         allowed_origins = ["*"]
 
+# Adiciona middleware de segurança para cabeçalhos HTTP
+app.add_middleware(SecurityHeadersMiddleware)
+
+# Adiciona middleware CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,

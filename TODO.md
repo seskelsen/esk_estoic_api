@@ -78,6 +78,7 @@
 
 - [x] Adicionar logs de depuração para facilitar identificação de problemas
 - [x] Melhorar robustez e tratamento de erros nas requisições
+- [x] Implementar cabeçalhos de segurança (CSP, X-Frame-Options, X-Content-Type-Options)
 - [ ] Otimizar consultas e respostas da API
 - [ ] Implementar rate limiting para prevenir abusos
 - [ ] Adicionar validação mais robusta de entradas

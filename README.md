@@ -58,6 +58,16 @@ Este projeto é uma API que fornece citações estoicas para cada dia do ano, co
 4. Execute o servidor:
 
    ```bash
+   # Usando os scripts de inicialização automatizados:
+   
+   # No Windows - execute o arquivo:
+   start_server.bat
+   
+   # No Linux/macOS - execute o arquivo (dê permissão primeiro):
+   chmod +x start_server.sh
+   ./start_server.sh
+   
+   # OU manualmente:
    python -m src.main
    ```
 
@@ -160,6 +170,8 @@ esk_estoic_api/
 ├── TODO.md                 # Lista de tarefas pendentes
 ├── Dockerfile              # Configuração para containerização
 ├── Procfile                # Configuração para deploy no Heroku
+├── start_server.bat        # Script para iniciar o servidor no Windows
+├── start_server.sh         # Script para iniciar o servidor no Linux/macOS
 ├── src/                    # Código-fonte da API
 │   ├── main.py             # Arquivo principal da API
 │   ├── test_main.py        # Testes da API
