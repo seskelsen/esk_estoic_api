@@ -103,7 +103,7 @@ app = FastAPI(
 )
 
 # Configure CORS
-allowed_origins = ["http://localhost:3000", "http://localhost:5000", "http://localhost:8000"]
+allowed_origins = ["http://localhost:3000", "http://localhost:5000", "http://localhost:8000", "*"]
 
 # Em produção, permitir configurar as origens por variável de ambiente
 if ENV == "production":
@@ -112,15 +112,16 @@ if ENV == "production":
     if prod_origins != "*":
         allowed_origins = prod_origins.split(",")
     else:
-        # Em produção, podemos permitir todas as origens ou usar uma lista específica
+        # Em produção, permitimos todas as origens
         allowed_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["Content-Type", "X-Content-Type-Options"],
     max_age=3600,
 )
 

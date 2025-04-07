@@ -145,6 +145,46 @@ h1 {
     100% { transform: rotate(360deg); }
 }
 
+.quote-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.quote-controls button {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-color);
+    background-color: white;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quote-controls button:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.quote-controls button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+#favorite-button.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -167,6 +207,16 @@ h1 {
     }
     
     .author {
+        font-size: 1rem;
+    }
+
+    .quote-controls {
+        gap: 10px;
+    }
+    
+    .quote-controls button {
+        width: 40px;
+        height: 40px;
         font-size: 1rem;
     }
 }
@@ -195,5 +245,16 @@ h1 {
     
     .quotation-mark {
         font-size: 4rem;
+    }
+
+    .quote-controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .quote-controls button {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
     }
 }
