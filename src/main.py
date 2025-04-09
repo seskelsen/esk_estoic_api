@@ -28,7 +28,11 @@ from slowapi.middleware import SlowAPIMiddleware
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response: Response = await call_next(request)
-        # Adiciona o cabeçalho Content-Security-Policy
+        
+        # Permitir acesso aos endpoints de documentação
+        if request.url.path in ['/docs', '/redoc', '/openapi.json']:
+            return response
+
         response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self';"
         # Adiciona o cabeçalho X-Frame-Options para proteção contra clickjacking
         response.headers["X-Frame-Options"] = "DENY"
