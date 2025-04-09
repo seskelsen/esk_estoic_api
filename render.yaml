@@ -1,9 +1,9 @@
 services:
   - type: web
     name: esk-estoic-api
-    env: python
+    env: python    
     buildCommand: pip install -r requirements.txt
-    startCommand: python -m uvicorn src.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn src.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PORT
         value: 8000

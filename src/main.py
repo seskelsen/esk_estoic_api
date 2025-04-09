@@ -112,14 +112,13 @@ app = FastAPI(
     Esta API implementa limites de taxa para garantir um serviço justo para todos os usuários:
     * Limite padrão: 60 requisições por minuto, 2 por segundo
     * Endpoints específicos podem ter limites diferentes
-    """,
-    version="1.1.0",
+    """,    version="1.1.0",
     lifespan=lifespan,
     debug=DEBUG,
     contact={
         "name": "Desenvolvedor",
-        "url": "https://github.com/seu-usuario/esk_estoic_api",
-        "email": "seu-email@exemplo.com",
+        "url": "https://github.com/estoic-api/esk_estoic_api",
+        "email": "contato@estoicapi.com",
     },
     license_info={
         "name": "MIT",
