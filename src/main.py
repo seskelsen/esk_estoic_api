@@ -395,6 +395,14 @@ async def get_favicon():
     favicon_path = os.path.join(BASE_DIR, "static", "img", "favicon.ico")
     return FileResponse(favicon_path)
 
+@app.get("/health", include_in_schema=False, tags=["Sistema"])
+async def health_check():
+    """
+    Endpoint para verificação de saúde da API.
+    Usado pelo Render e outros serviços para monitorar o status do serviço.
+    """
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
 # Personalização da documentação OpenAPI
 def custom_openapi():
     if app.openapi_schema:
