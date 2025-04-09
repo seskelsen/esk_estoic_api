@@ -23,7 +23,7 @@
 - [x] Configurar variáveis de ambiente para diferentes ambientes
 - [x] Preparar arquivos de configuração para deploy em plataformas como Heroku ou Vercel
 - [x] Garantir compatibilidade com acesso via IP além de localhost
-- [ ] Configurar CI/CD para automatizar testes e deploy
+- [x] Configurar CI/CD para automatizar testes e deploy
 - [ ] Implementar monitoramento básico
 
 ### Banco de Dados de Citações
