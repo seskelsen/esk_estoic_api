@@ -8,7 +8,14 @@
 - [x] Implementar design moderno e compatível com dispositivos móveis
 - [x] Separar arquivos HTML, CSS e JavaScript seguindo boas práticas
 - [x] Adicionar suporte para compartilhamento em redes sociais
-- [ ] Implementar tema escuro (dark mode)
+- [x] Implementar tema escuro (dark mode)
+
+### Segurança e Performance
+
+- [x] Implementar rate limiting para proteção contra abusos
+- [x] Configurar cabeçalhos de segurança (CSP, X-Frame-Options, etc.)
+- [ ] Implementar cache para reduzir carga no servidor
+- [ ] Adicionar compressão gzip/brotli para respostas da API
 
 ### Implantação
 
@@ -32,7 +39,7 @@
 - [x] Adicionar testes para validar o formato das citações em português e inglês
 - [x] Implementar testes de integração
 - [x] Adicionar testes para casos de erro
-- [ ] Adicionar testes para a interface web (testes de front-end)
+- [x] Adicionar testes para a interface web (testes de front-end)
 
 ## Média Prioridade
 
@@ -79,8 +86,10 @@
 - [x] Adicionar logs de depuração para facilitar identificação de problemas
 - [x] Melhorar robustez e tratamento de erros nas requisições
 - [x] Implementar cabeçalhos de segurança (CSP, X-Frame-Options, X-Content-Type-Options)
+- [x] Implementar testes de middleware para verificar a segurança
+- [x] Garantir suporte adequado para CORS em todos os endpoints
+- [x] Implementar rate limiting para prevenir abusos
 - [ ] Otimizar consultas e respostas da API
-- [ ] Implementar rate limiting para prevenir abusos
 - [ ] Adicionar validação mais robusta de entradas
 - [ ] Configurar compressão de respostas
 - [ ] Implementar cache de respostas frequentes

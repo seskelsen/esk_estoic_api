@@ -1,5 +1,53 @@
 # Changelog
 
+## [1.5.0] - 2025-04-08
+
+### Adicionado
+
+- Rate limiting para proteção contra abusos:
+  - Limitador global: 60 requisições por minuto, 2 por segundo
+  - Limites específicos por endpoint:
+    - Citações diárias: 90 requisições por minuto
+    - Citações aleatórias: 30 requisições por minuto
+    - Lista completa de citações: 10 requisições por minuto
+    - Busca por autor: 20 requisições por minuto
+  - Respostas 429 (Too Many Requests) com cabeçalho Retry-After
+  - Documentação atualizada com informações sobre limites
+
+### Melhorado
+
+- Descrições dos endpoints agora incluem informações sobre limites de taxa
+- Configuração da API para mostrar informações detalhadas sobre rate limiting
+- Robustez contra ataques de força bruta e DoS
+
+## [1.4.0] - 2025-04-08
+
+### Adicionado
+
+- Tema escuro (dark mode) para a interface web com:
+  - Alternância através de botão dedicado
+  - Persistência da preferência do usuário via localStorage
+  - Transições suaves entre temas
+  - Esquema de cores otimizado para uso noturno
+- Favicon personalizado com símbolo de coruja representando sabedoria
+- Testes completos para componentes estáticos e middleware
+- Documentação expandida sobre segurança e testes
+
+### Melhorado
+
+- Estrutura de testes organizada em três categorias:
+  - Testes da API e endpoints
+  - Testes de componentes estáticos
+  - Testes de segurança e middleware
+- Suporte adequado para CORS em todos os endpoints
+- Handler global para requisições OPTIONS
+- Tratamento adequado para solicitações de favicon
+
+### Corrigido
+
+- Erro 405 (Method Not Allowed) ao acessar favicon.ico
+- Comportamento inconsistente do CORS em algumas rotas
+
 ## [1.3.1] - 2025-04-07
 
 ### Melhorado

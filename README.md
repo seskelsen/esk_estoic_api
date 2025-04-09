@@ -17,6 +17,9 @@ Este projeto é uma API que fornece citações estoicas para cada dia do ano, co
 - Suporte para português e inglês
 - Citações específicas para cada dia do ano
 - Citações aleatórias
+- Rate limiting para proteção contra abusos e alta carga:
+  - Limitador global: 60 requisições por minuto, 2 por segundo
+  - Limites personalizados por endpoint
 - Design moderno e compatível com dispositivos móveis
 - Suporte para Docker e implantação em nuvem
 - Compatibilidade de acesso via IP ou domínio, não apenas localhost
@@ -229,6 +232,70 @@ A API oferece documentação interativa que pode ser acessada de duas formas:
    - Organização por tags e categorias
 
 A documentação inclui exemplos, modelos de dados e explicações detalhadas para facilitar a integração com outros sistemas.
+
+## Rate Limiting
+
+Para garantir um serviço estável e justo para todos os usuários, esta API implementa limites de taxa (rate limiting):
+
+- **Limite global**: 60 requisições por minuto, 2 por segundo
+- **Limites específicos**:
+  - Citações diárias (`/quote/today`): 90 requisições por minuto
+  - Citações aleatórias (`/quote/random`): 30 requisições por minuto
+  - Lista completa (`/quotes`): 10 requisições por minuto
+  - Busca por autor (`/quotes/{author}`): 20 requisições por minuto
+
+Ao exceder esses limites, a API responderá com status 429 (Too Many Requests) e incluirá um cabeçalho `Retry-After` indicando quanto tempo esperar antes de tentar novamente.
+
+Estes limites podem ser ajustados através de variáveis de ambiente em ambientes de produção.
+
+## Testes
+
+O projeto inclui uma suíte completa de testes para garantir a qualidade e funcionalidade da API:
+
+```bash
+# Executar todos os testes
+pytest
+
+# Executar testes específicos
+pytest src/test_main.py
+pytest src/test_static.py
+pytest src/test_middleware.py
+```
+
+Os testes abrangem:
+
+1. **API e Endpoints** (`test_main.py`):
+   - Verificação de todas as rotas da API
+   - Validação de formatos e conteúdos das respostas
+   - Testes de casos de erro e comportamentos alternativos
+
+2. **Componentes Estáticos** (`test_static.py`):
+   - Servir arquivos HTML, CSS e JavaScript
+   - Integração entre frontend e API
+   - Validação de conteúdo e estrutura
+
+3. **Segurança** (`test_middleware.py`):
+   - Cabeçalhos de segurança (CSP, X-Frame-Options, X-Content-Type-Options)
+   - Configuração CORS
+   - Respostas para requisições preflight (OPTIONS)
+
+## Segurança
+
+O projeto implementa diversas medidas de segurança:
+
+1. **Cabeçalhos HTTP de Segurança**:
+   - Content-Security-Policy (CSP): Restringe fontes de conteúdo
+   - X-Frame-Options: Protege contra clickjacking
+   - X-Content-Type-Options: Previne MIME-sniffing
+
+2. **CORS (Cross-Origin Resource Sharing)**:
+   - Configuração flexível via variáveis de ambiente
+   - Suporte para preflight requests (OPTIONS)
+   - Proteção contra solicitações não autorizadas
+
+3. **Validação de Entradas**:
+   - Tipagem forte com Pydantic
+   - Validação de parâmetros de URL e query
 
 ## Contribuição
 

@@ -16,7 +16,13 @@ import os
 from pathlib import Path
 from contextlib import asynccontextmanager
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
+from starlette.responses import Response, JSONResponse
+from starlette.requests import Request
+import logging
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 
 # Middleware de segurança para adicionar cabeçalhos HTTP de segurança
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
@@ -78,7 +84,10 @@ async def lifespan(app: FastAPI):
         task.cancel()
     await asyncio.gather(*tasks, return_exceptions=True)
 
-# Configuração do aplicativo FastAPI com documentação aprimorada
+# Configuração do rate limiter
+limiter = Limiter(key_func=get_remote_address, default_limits=["60 per minute", "2 per second"])
+
+# Configuração do aplicativo FastAPI com documentação aprimorada e rate limiter
 app = FastAPI(
     title="API de Citações Estoicas",
     description="""
@@ -97,6 +106,12 @@ app = FastAPI(
     
     A API contém citações para todos os 366 dias do ano (incluindo 29 de fevereiro).
     Todas as citações estão disponíveis em português e inglês.
+    
+    ## Rate Limiting
+    
+    Esta API implementa limites de taxa para garantir um serviço justo para todos os usuários:
+    * Limite padrão: 60 requisições por minuto, 2 por segundo
+    * Endpoints específicos podem ter limites diferentes
     """,
     version="1.1.0",
     lifespan=lifespan,
@@ -116,6 +131,18 @@ app = FastAPI(
     terms_of_service="https://github.com/seu-usuario/esk_estoic_api",
 )
 
+# Associar o limiter ao aplicativo FastAPI
+app.state.limiter = limiter
+
+# Custom handler para exceções de limite de taxa excedido
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_exceeded_handler(request, exc):
+    return JSONResponse(
+        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+        content={"detail": "Rate limit exceeded", "limit": str(exc)},
+        headers={"Retry-After": "60"}
+    )
+
 # Configuração de middlewares
 # ===========================
 
@@ -132,10 +159,7 @@ if ENV == "production":
         # Em produção, permitimos todas as origens
         allowed_origins = ["*"]
 
-# Adiciona middleware de segurança para cabeçalhos HTTP
-app.add_middleware(SecurityHeadersMiddleware)
-
-# Adiciona middleware CORS
+# Reorganizando a ordem dos middlewares para garantir que o CORSMiddleware seja aplicado antes
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -146,14 +170,45 @@ app.add_middleware(
     max_age=3600,
 )
 
+# Adiciona middleware de segurança para cabeçalhos HTTP
+app.add_middleware(SecurityHeadersMiddleware)
+
+# Adicionar o middleware SlowAPI para implementar o rate limiting
+app.add_middleware(SlowAPIMiddleware)
+
 # Mount static files directory to serve CSS and JavaScript files
 static_dir = os.path.join(BASE_DIR, "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/", include_in_schema=False)
-async def read_root():
-    index_path = os.path.join(BASE_DIR, "index.html")
-    return FileResponse(index_path)
+async def read_root(request: Request):
+    # Verificar o cabeçalho Accept para determinar o tipo de resposta
+    accept = request.headers.get("accept", "")
+    
+    # Se o cliente solicitou HTML ou é um navegador, servir o arquivo index.html
+    if "text/html" in accept or "Mozilla" in request.headers.get("user-agent", ""):
+        index_path = os.path.join(BASE_DIR, "index.html")
+        return FileResponse(index_path)
+    
+    # Caso contrário, retornar JSON para a API
+    return {"message": "Welcome to the Stoic Quotes API"}
+
+# Removendo a rota OPTIONS explícita para permitir que o middleware CORS processe a requisição automaticamente
+# @app.options("/")
+# async def options_root():
+#     return Response(status_code=204)
+
+@app.options("/")
+async def options_root():
+    return Response(
+        status_code=204,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Max-Age": "3600",
+        },
+    )
 
 @app.get(
     "/quote/today", 
@@ -168,7 +223,8 @@ async def read_root():
     """,
     tags=["Citações em Português"]
 )
-async def get_today_quote():
+@limiter.limit("90 per minute")
+async def get_today_quote(request: Request):
     # Get current date in Brazilian timezone
     today = datetime.now(ZoneInfo("America/Sao_Paulo"))
     today_date = today.strftime("%m-%d")
@@ -212,7 +268,8 @@ async def get_today_quote():
     """,
     tags=["Citações em Inglês"]
 )
-async def get_today_quote_english():
+@limiter.limit("90 per minute")
+async def get_today_quote_english(request: Request):
     # Get current date in Brazilian timezone
     today = datetime.now(ZoneInfo("America/Sao_Paulo"))
     today_date = today.strftime("%m-%d")
@@ -235,7 +292,8 @@ async def get_today_quote_english():
     description="Retorna uma citação estoica aleatória em português do banco de dados de citações.",
     tags=["Citações em Português"]
 )
-async def get_random_quote():
+@limiter.limit("30 per minute")
+async def get_random_quote(request: Request):
     quote = choice(quotes)
     return {"text": quote["text"], "author": quote["author"], "date": quote["date"]}
 
@@ -246,7 +304,8 @@ async def get_random_quote():
     description="Retorna uma citação estoica aleatória em inglês do banco de dados de citações.",
     tags=["Citações em Inglês"]
 )
-async def get_random_quote_english():
+@limiter.limit("30 per minute")
+async def get_random_quote_english(request: Request):
     quote = choice(quotes)
     return {"text": quote["text_en"], "author": quote["author"], "date": quote["date"]}
 
@@ -258,10 +317,13 @@ async def get_random_quote_english():
     Retorna a lista completa de todas as citações estoicas disponíveis no banco de dados.
     
     Esta chamada pode retornar um grande volume de dados, pois inclui citações para todos os 366 dias do ano.
+    
+    Rate limit: 10 chamadas por minuto.
     """,
     tags=["Coleções"]
 )
-async def get_all_quotes():
+@limiter.limit("10 per minute")
+async def get_all_quotes(request: Request):
     return quotes
 
 @app.get(
@@ -273,11 +335,15 @@ async def get_all_quotes():
     Retorna todas as citações de um autor específico.
     
     A busca não é sensível a maiúsculas e minúsculas.
-    Se nenhuma citação for encontrada para o autor especificado, retorna uma mensagem de erro 404.
+    Se nenhuma citação for encontrada para o autor especificado, retorna uma lista vazia.
+    
+    Rate limit: 20 chamadas por minuto.
     """,
     tags=["Coleções"]
 )
+@limiter.limit("20 per minute")
 async def get_quotes_by_author(
+    request: Request,
     author: str = FastAPIPath(
         ..., 
         description="O nome do autor das citações", 
@@ -285,12 +351,49 @@ async def get_quotes_by_author(
     )
 ):
     author_quotes = [quote for quote in quotes if quote["author"].lower() == author.lower()]
-    if not author_quotes:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, 
-            detail=f"Autor '{author}' não encontrado"
-        )
     return author_quotes
+
+# Debugging middleware behavior for OPTIONS requests
+@app.options("/debug-cors")
+async def debug_cors():
+    return Response(status_code=204, headers={
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "*",
+    })
+
+# Adding a debug log to inspect middleware behavior
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger("CORS-Debug")
+
+@app.middleware("http")
+async def log_request_middleware(request, call_next):
+    logger.debug(f"Request method: {request.method}, path: {request.url.path}")
+    response = await call_next(request)
+    logger.debug(f"Response status: {response.status_code}, headers: {response.headers}")
+    return response
+
+@app.options("/{full_path:path}")
+async def options_handler(full_path: str):
+    """
+    Handler global para todas as requisições OPTIONS em qualquer rota da API.
+    Isso garante que o CORS funcione corretamente para todos os endpoints.
+    """
+    return Response(
+        status_code=204,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Max-Age": "3600",
+        },
+    )
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def get_favicon():
+    """Serve o favicon do site."""
+    favicon_path = os.path.join(BASE_DIR, "static", "img", "favicon.ico")
+    return FileResponse(favicon_path)
 
 # Personalização da documentação OpenAPI
 def custom_openapi():

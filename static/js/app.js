@@ -158,6 +158,51 @@ function toggleFavorite() {
     localStorage.setItem('favoriteQuotes', JSON.stringify(favorites));
 }
 
+// Função para alternar o tema entre claro e escuro
+function toggleTheme() {
+    const body = document.body;
+    const themeButton = document.getElementById('theme-toggle');
+    
+    // Alternar a classe dark-mode
+    body.classList.toggle('dark-mode');
+    
+    // Atualizar o ícone do botão
+    const isDarkMode = body.classList.contains('dark-mode');
+    themeButton.textContent = isDarkMode ? '☀️' : '🌙';
+    themeButton.title = isDarkMode ? 'Mudar para tema claro' : 'Mudar para tema escuro';
+    
+    // Salvar a preferência do usuário no localStorage
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+}
+
+// Função para aplicar o tema preferido do usuário (salvo anteriormente)
+function applyTheme() {
+    // Verificar se o usuário já tem uma preferência salva
+    const savedTheme = localStorage.getItem('darkMode');
+    
+    // Se o tema escuro estiver salvo como preferência, aplicá-lo
+    if (savedTheme === 'enabled') {
+        document.body.classList.add('dark-mode');
+        if (document.getElementById('theme-toggle')) {
+            document.getElementById('theme-toggle').textContent = '☀️';
+            document.getElementById('theme-toggle').title = 'Mudar para tema claro';
+        }
+    }
+}
+
+// Criar e adicionar o botão de alternância de tema
+function createThemeToggle() {
+    const themeButton = document.createElement('button');
+    themeButton.id = 'theme-toggle';
+    themeButton.className = 'theme-toggle';
+    themeButton.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    themeButton.title = document.body.classList.contains('dark-mode') ? 'Mudar para tema claro' : 'Mudar para tema escuro';
+    themeButton.addEventListener('click', toggleTheme);
+    
+    // Adicionar o botão ao body
+    document.body.appendChild(themeButton);
+}
+
 // Cria e adiciona os botões de controle à interface
 function createControls() {
     const controlsDiv = document.createElement('div');
@@ -205,8 +250,10 @@ function createControls() {
 // Inicializa a página
 function init() {
     updateDate();
+    applyTheme();
     fetchQuote().then(() => {
         createControls();
+        createThemeToggle();
     });
 }
 
