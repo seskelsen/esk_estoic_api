@@ -18,6 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
+      - name: Create .env file
+        run: |
+          echo "APP_ENV=production" >> .env
+          echo "PORT=8000" >> .env
+          echo "HOST=0.0.0.0" >> .env
+          echo "ALLOWED_ORIGINS=https://estoicapi.com,https://www.estoicapi.com,https://app.estoicapi.com" >> .env
+      
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:

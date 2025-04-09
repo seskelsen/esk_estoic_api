@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.1] - 2025-04-09
+
+### Melhorado
+
+- Configuração de CORS ajustada para produção, restringindo os domínios permitidos a:
+  - https://estoicapi.com
+  - https://www.estoicapi.com
+  - https://app.estoicapi.com
+- Informações de contato atualizadas na documentação da API:
+  - URL do GitHub: https://github.com/estoic-api/esk_estoic_api
+  - E-mail de contato: contato@estoicapi.com
+
+### Corrigido
+
+- Adicionado passo no workflow de CI/CD para criar o arquivo `.env` automaticamente durante o deploy no Render.
+
 ## [1.5.0] - 2025-04-08
 
 ### Adicionado
