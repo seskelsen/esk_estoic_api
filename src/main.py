@@ -32,7 +32,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         # Permitir acesso aos endpoints de documentação
         if request.url.path in ['/docs', '/redoc', '/openapi.json']:
             return response
-
+        # Adiciona o cabeçalho Content-Security-Policy para prevenir ataques XSS e injeção de conteúdo
         response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self';"
         # Adiciona o cabeçalho X-Frame-Options para proteção contra clickjacking
         response.headers["X-Frame-Options"] = "DENY"
@@ -398,11 +398,11 @@ async def get_favicon():
     favicon_path = os.path.join(BASE_DIR, "static", "img", "favicon.ico")
     return FileResponse(favicon_path)
 
-@app.get("/health", include_in_schema=False, tags=["Sistema"])
+@app.get("/health", tags=["Sistema"], summary="Verificação de saúde da API", description="Endpoint para verificar o status de saúde da API. Usado por serviços como Render para monitoramento.")
 async def health_check():
     """
     Endpoint para verificação de saúde da API.
-    Usado pelo Render e outros serviços para monitorar o status do serviço.
+    Retorna o status "healthy" e o timestamp atual.
     """
     return {"status": "healthy", "timestamp": datetime.now().isoformat()}
 
