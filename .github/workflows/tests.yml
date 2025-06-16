@@ -9,6 +9,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      actions: read
+    
     strategy:
       matrix:
         python-version: [3.9]
