@@ -1732,6 +1732,368 @@ quotes = [
         "date": "10-13"
     },
     {
+        "text": "Ao final de cada ano, reflita sobre o que aprendeu e como cresceu.",
+        "text_en": "At the end of each year, reflect on what you've learned and how you've grown.",
+        "author": "Epictetus",
+        "date": "10-14"
+    },
+    {
+        "text": "Cada dia é uma nova vida para o sábio.",
+        "text_en": "Each day is a new life for the wise.",
+        "author": "Marcus Aurelius",
+        "date": "10-15"
+    },
+    {
+        "text": "A vida é curta, a arte é longa, a oportunidade fugaz.",
+        "text_en": "Life is short, art is long, opportunity fleeting.",
+        "author": "Seneca",
+        "date": "10-16"
+    },
+    {
+        "text": "Não é o que você tem, mas como você pensa sobre o que tem que importa.",
+        "text_en": "It's not what you have, but how you think about what you have that matters.",
+        "author": "Epictetus",
+        "date": "10-17"
+    },
+    {
+        "text": "A mente que está em paz consigo mesma está em paz com o mundo.",
+        "text_en": "The mind at peace with itself is at peace with the world.",
+        "author": "Marcus Aurelius",
+        "date": "10-18"
+    },
+    {
+        "text": "O tempo revela a verdade de todas as coisas.",
+        "text_en": "Time reveals the truth of all things.",
+        "author": "Seneca",
+        "date": "10-19"
+    },
+    {
+        "text": "A liberdade não é fazer o que se quer, mas querer o que se faz.",
+        "text_en": "Freedom is not doing what you want, but wanting what you do.",
+        "author": "Epictetus",
+        "date": "10-20"
+    },
+    {
+        "text": "A verdadeira riqueza é a ausência de desejos desnecessários.",
+        "text_en": "True wealth is the absence of unnecessary desires.",
+        "author": "Marcus Aurelius",
+        "date": "10-21"
+    },
+    {
+        "text": "A vida é como um jogo de dados: o importante não é que números caem, mas como você joga com eles.",
+        "text_en": "Life is like a game of dice: the important thing is not what numbers fall, but how you play with them.",
+        "author": "Seneca",
+        "date": "10-22"
+    },
+    {
+        "text": "A sabedoria começa com a aceitação da própria ignorância.",
+        "text_en": "Wisdom begins with accepting one's own ignorance.",
+        "author": "Epictetus",
+        "date": "10-23"
+    },
+    {
+        "text": "A mente tranquila é mais forte que qualquer fortaleza.",
+        "text_en": "The tranquil mind is stronger than any fortress.",
+        "author": "Marcus Aurelius",
+        "date": "10-24"
+    },
+    {
+        "text": "A vida é um presente, use-a sabiamente.",
+        "text_en": "Life is a gift, use it wisely.",
+        "author": "Seneca",
+        "date": "10-25"
+    },
+    {
+        "text": "Não são as coisas que nos perturbam, mas nossas opiniões sobre elas.",
+        "text_en": "It's not things that disturb us, but our opinions about them.",
+        "author": "Epictetus",
+        "date": "10-26"
+    },
+    {
+        "text": "A verdadeira força está na gentileza e na calma.",
+        "text_en": "True strength lies in gentleness and calmness.",
+        "author": "Marcus Aurelius",
+        "date": "10-27"
+    },
+    {
+        "text": "O tempo perdido nunca é encontrado novamente.",
+        "text_en": "Lost time is never found again.",
+        "author": "Seneca",
+        "date": "10-28"
+    },
+    {
+        "text": "A liberdade é o direito de viver como se escolhe.",
+        "text_en": "Freedom is the right to live as one chooses.",
+        "author": "Epictetus",
+        "date": "10-29"
+    },
+    {
+        "text": "A mente que está em paz com si mesma está em paz com o universo.",
+        "text_en": "The mind at peace with itself is at peace with the universe.",
+        "author": "Marcus Aurelius",
+        "date": "10-30"
+    },
+    {
+        "text": "A vida é como um livro, o valor está no conteúdo, não no tamanho.",
+        "text_en": "Life is like a book, the value is in the content, not the size.",
+        "author": "Seneca",
+        "date": "10-31"
+    },
+    # November
+    {
+        "text": "O inverno se aproxima, lembrando-nos da importância da preparação.",
+        "text_en": "Winter approaches, reminding us of the importance of preparation.",
+        "author": "Epictetus",
+        "date": "11-01"
+    },
+    {
+        "text": "A verdadeira riqueza é a paz de espírito.",
+        "text_en": "True wealth is peace of mind.",
+        "author": "Marcus Aurelius",
+        "date": "11-02"
+    },
+    {
+        "text": "A sabedoria não está em acumular conhecimento, mas em aplicá-lo.",
+        "text_en": "Wisdom is not in accumulating knowledge, but in applying it.",
+        "author": "Seneca",
+        "date": "11-03"
+    },
+    {
+        "text": "Controle o que pode ser controlado, aceite o resto.",
+        "text_en": "Control what can be controlled, accept the rest.",
+        "author": "Epictetus",
+        "date": "11-04"
+    },
+    {
+        "text": "A mente disciplinada é a maior fortaleza.",
+        "text_en": "The disciplined mind is the greatest fortress.",
+        "author": "Marcus Aurelius",
+        "date": "11-05"
+    },
+    {
+        "text": "A vida bem vivida é a melhor resposta às adversidades.",
+        "text_en": "A well-lived life is the best response to adversity.",
+        "author": "Seneca",
+        "date": "11-06"
+    },
+    {
+        "text": "Não busque a aprovação externa, busque a integridade interna.",
+        "text_en": "Don't seek external approval, seek internal integrity.",
+        "author": "Epictetus",
+        "date": "11-07"
+    },
+    {
+        "text": "A serenidade vem da aceitação do que não podemos mudar.",
+        "text_en": "Serenity comes from accepting what we cannot change.",
+        "author": "Marcus Aurelius",
+        "date": "11-08"
+    },
+    {
+        "text": "O tempo revela a verdade de todas as coisas.",
+        "text_en": "Time reveals the truth of all things.",
+        "author": "Seneca",
+        "date": "11-09"
+    },
+    {
+        "text": "A liberdade começa quando entendemos o que está sob nosso controle.",
+        "text_en": "Freedom begins when we understand what is under our control.",
+        "author": "Epictetus",
+        "date": "11-10"
+    },
+    {
+        "text": "Viva de acordo com a natureza e encontrará harmonia.",
+        "text_en": "Live according to nature and you will find harmony.",
+        "author": "Marcus Aurelius",
+        "date": "11-11"
+    },
+    {
+        "text": "A verdadeira felicidade não depende de circunstâncias externas.",
+        "text_en": "True happiness does not depend on external circumstances.",
+        "author": "Seneca",
+        "date": "11-12"
+    },
+    {
+        "text": "Não são as coisas que nos perturbam, mas nossas opiniões sobre elas.",
+        "text_en": "It's not things that disturb us, but our opinions about them.",
+        "author": "Epictetus",
+        "date": "11-13"
+    },
+    {
+        "text": "A gratidão transforma o que temos em suficiente.",
+        "text_en": "Gratitude transforms what we have into enough.",
+        "author": "Marcus Aurelius",
+        "date": "11-14"
+    },
+    {
+        "text": "O sábio aprende mais com o silêncio do que o tolo com palavras.",
+        "text_en": "The wise learn more from silence than fools from words.",
+        "author": "Seneca",
+        "date": "11-15"
+    },
+    {
+        "text": "A verdadeira liberdade é ser dono de si mesmo.",
+        "text_en": "True freedom is being master of oneself.",
+        "author": "Epictetus",
+        "date": "11-16"
+    },
+    {
+        "text": "Cada dia é uma nova oportunidade para viver virtuosamente.",
+        "text_en": "Each day is a new opportunity to live virtuously.",
+        "author": "Marcus Aurelius",
+        "date": "11-17"
+    },
+    {
+        "text": "A vida é curta, mas a arte é longa.",
+        "text_en": "Life is short, but art is long.",
+        "author": "Seneca",
+        "date": "11-18"
+    },
+    {
+        "text": "Não é o que acontece, mas como você responde que importa.",
+        "text_en": "It's not what happens, but how you respond that matters.",
+        "author": "Epictetus",
+        "date": "11-19"
+    },
+    {
+        "text": "A verdadeira riqueza é a ausência de desejos desnecessários.",
+        "text_en": "True wealth is the absence of unnecessary desires.",
+        "author": "Marcus Aurelius",
+        "date": "11-20"
+    },
+    {
+        "text": "O tempo perdido nunca é encontrado novamente.",
+        "text_en": "Lost time is never found again.",
+        "author": "Seneca",
+        "date": "11-21"
+    },
+    {
+        "text": "A sabedoria começa com a aceitação da própria ignorância.",
+        "text_en": "Wisdom begins with accepting one's own ignorance.",
+        "author": "Epictetus",
+        "date": "11-22"
+    },
+    {
+        "text": "A mente que está em paz com si mesma está em paz com o universo.",
+        "text_en": "The mind at peace with itself is at peace with the universe.",
+        "author": "Marcus Aurelius",
+        "date": "11-23"
+    },
+    {
+        "text": "A vida é como um livro, o valor está no conteúdo, não no tamanho.",
+        "text_en": "Life is like a book, the value is in the content, not the size.",
+        "author": "Seneca",
+        "date": "11-24"
+    },
+    {
+        "text": "Não é o que você tem, mas como você usa o que tem que importa.",
+        "text_en": "It's not what you have, but how you use what you have that matters.",
+        "author": "Epictetus",
+        "date": "11-25"
+    },
+    {
+        "text": "A verdadeira força está na gentileza e na calma.",
+        "text_en": "True strength lies in gentleness and calmness.",
+        "author": "Marcus Aurelius",
+        "date": "11-26"
+    },
+    {
+        "text": "A vida é um presente, use-a sabiamente.",
+        "text_en": "Life is a gift, use it wisely.",
+        "author": "Seneca",
+        "date": "11-27"
+    },
+    {
+        "text": "A liberdade é o direito de viver como se escolhe.",
+        "text_en": "Freedom is the right to live as one chooses.",
+        "author": "Epictetus",
+        "date": "11-28"
+    },
+    {
+        "text": "A verdadeira sabedoria está em saber que você não sabe tudo.",
+        "text_en": "True wisdom lies in knowing you don't know everything.",
+        "author": "Marcus Aurelius",
+        "date": "11-29"
+    },
+    {
+        "text": "A paciência é a companheira da sabedoria.",
+        "text_en": "Patience is the companion of wisdom.",
+        "author": "Seneca",
+        "date": "11-30"
+    },
+    # December
+    {
+        "text": "O inverno nos ensina a importância do recolhimento e da reflexão.",
+        "text_en": "Winter teaches us the importance of retreat and reflection.",
+        "author": "Epictetus",
+        "date": "12-01"
+    },
+    {
+        "text": "A verdadeira riqueza é a paz interior.",
+        "text_en": "True wealth is inner peace.",
+        "author": "Marcus Aurelius",
+        "date": "12-02"
+    },
+    {
+        "text": "A vida é uma sucessão de momentos, viva cada um deles.",
+        "text_en": "Life is a succession of moments, live each one of them.",
+        "author": "Seneca",
+        "date": "12-03"
+    },
+    {
+        "text": "Controle seus pensamentos e você controlará seu destino.",
+        "text_en": "Control your thoughts and you will control your destiny.",
+        "author": "Epictetus",
+        "date": "12-04"
+    },
+    {
+        "text": "A mente tranquila é a fonte da sabedoria.",
+        "text_en": "The tranquil mind is the source of wisdom.",
+        "author": "Marcus Aurelius",
+        "date": "12-05"
+    },
+    {
+        "text": "Não é quanto tempo você vive, mas como você vive que importa.",
+        "text_en": "It's not how long you live, but how you live that matters.",
+        "author": "Seneca",
+        "date": "12-06"
+    },
+    {
+        "text": "A verdadeira liberdade é não desejar nada que esteja além do seu controle.",
+        "text_en": "True freedom is desiring nothing that is beyond your control.",
+        "author": "Epictetus",
+        "date": "12-07"
+    },
+    {
+        "text": "A gratidão é a chave para a felicidade duradoura.",
+        "text_en": "Gratitude is the key to lasting happiness.",
+        "author": "Marcus Aurelius",
+        "date": "12-08"
+    },
+    {
+        "text": "O tempo é o bem mais valioso que possuímos.",
+        "text_en": "Time is the most valuable asset we possess.",
+        "author": "Seneca",
+        "date": "12-09"
+    },
+    {
+        "text": "Não são os eventos que nos perturbam, mas nossa interpretação deles.",
+        "text_en": "It's not events that disturb us, but our interpretation of them.",
+        "author": "Epictetus",
+        "date": "12-10"
+    },
+    {
+        "text": "A serenidade vem da aceitação do que não podemos mudar.",
+        "text_en": "Serenity comes from accepting what we cannot change.",
+        "author": "Marcus Aurelius",
+        "date": "12-11"
+    },
+    {
+        "text": "A vida é como um eco: o que você envia, retorna para você.",
+        "text_en": "Life is like an echo: what you send out, comes back to you.",
+        "author": "Seneca",
+        "date": "12-12"
+    },
+    {
         "text": "A verdadeira liberdade é ser dono de suas próprias escolhas.",
         "text_en": "True freedom is being master of your own choices.",
         "author": "Epictetus",
