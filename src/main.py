@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, HTTPException, status, Path as FastAPIPath
+from fastapi import FastAPI, Query, HTTPException, status, Path as FastAPIPath, Request as FastAPIRequest
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -32,6 +32,11 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         # Permitir acesso aos endpoints de documentação
         if request.url.path in ['/docs', '/redoc', '/openapi.json']:
             return response
+            
+        # Skip security headers for 404 error responses to allow custom CSP
+        if response.status_code == 404:
+            return response
+            
         # Adiciona o cabeçalho Content-Security-Policy para prevenir ataques XSS e injeção de conteúdo
         response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self';"
         # Adiciona o cabeçalho X-Frame-Options para proteção contra clickjacking
@@ -144,6 +149,115 @@ async def rate_limit_exceeded_handler(request, exc):
         status_code=status.HTTP_429_TOO_MANY_REQUESTS,
         content={"detail": "Rate limit exceeded", "limit": str(exc)},
         headers={"Retry-After": "60"}
+    )
+
+# Custom handler para 404 - Page Not Found
+@app.exception_handler(404)
+async def not_found_handler(request: Request, exc):
+    # Se o cliente solicitou HTML ou é um navegador, servir página de erro customizada
+    accept = request.headers.get("accept", "")
+    if "text/html" in accept or "Mozilla" in request.headers.get("user-agent", ""):
+        return Response(
+            content="""
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página não encontrada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --text-color: #333;
+            --body-bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--body-bg-gradient);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .error-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            margin: 1rem;
+        }
+        
+        .error-code {
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .error-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+        
+        .error-description {
+            color: var(--text-color);
+            margin: 1.5rem 0;
+            line-height: 1.6;
+        }
+        
+        .home-button {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .home-button:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Oops! Página não encontrada</h2>
+        <p class="error-description">
+            A página que você está procurando não existe ou foi movida.
+        </p>
+        <a href="/" class="home-button">Voltar ao Início</a>
+    </div>
+</body>
+</html>
+            """,
+            status_code=404,
+            media_type="text/html",
+            headers={
+                "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self';"
+            }
+        )
+    
+    # Para requisições da API, retornar JSON
+    return JSONResponse(
+        status_code=404,
+        content={"detail": "Not Found"}
     )
 
 # Configuração de middlewares
@@ -376,21 +490,8 @@ async def log_request_middleware(request, call_next):
     logger.debug(f"Response status: {response.status_code}, headers: {response.headers}")
     return response
 
-@app.options("/{full_path:path}")
-async def options_handler(full_path: str):
-    """
-    Handler global para todas as requisições OPTIONS em qualquer rota da API.
-    Isso garante que o CORS funcione corretamente para todos os endpoints.
-    """
-    return Response(
-        status_code=204,
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Max-Age": "3600",
-        },
-    )
+# Removed global OPTIONS handler that was causing 405 errors on non-existent routes
+# CORS is already properly handled by CORSMiddleware
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def get_favicon():
